@@ -1,33 +1,28 @@
 #!/usr/bin/env python3
-import os, sqlite3, secrets
+import os, secrets
 from datetime import datetime, timedelta
-from flask import Flask, render_template, request, redirect, url_for, flash, session, g
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 from functools import wraps
 
-# ---- Import our Blueprints ----
+from db import get_db, close_db
+
+# ---- Import Blueprints ----
 from routes.auth import auth_bp
 from routes.admin import admin_bp
 from routes.nodes import nodes_bp
 from routes.vps import vps_bp
 
 app = Flask(__name__)
-app.secret_key = "CHANGE_ME"  # install.sh replaces this
-DATABASE = "/opt/lvm-panel-pro/lvm_panel.db"
+app.secret_key = "CHANGE_ME"
+app.teardown_appcontext(close_db)
 
-# ---- Database helpers ----
-def get_db():
-    db = getattr(g, '_database', None)
-    if db is None:
-        db = g._database = sqlite3.connect(DATABASE)
-        db.row_factory = sqlite3.Row
-    return db
+# ---- Register Blueprints ----
+app.register_blueprint(auth_bp)
+app.register_blueprint(admin_bp)
+app.register_blueprint(nodes_bp)
+app.register_blueprint(vps_bp)
 
-@app.teardown_appcontext
-def close_connection(exception):
-    db = getattr(g, '_database', None)
-    if db is not None:
-        db.close()
-
+# ---- Database initialization ----
 def init_db():
     with app.app_context():
         db = get_db()
@@ -86,13 +81,6 @@ def init_db():
                         ('LocalHost', 'http://127.0.0.1:9000', 'dummy-key'))
         db.commit()
 
-# ---- Register Blueprints ----
-app.register_blueprint(auth_bp)
-app.register_blueprint(admin_bp)
-app.register_blueprint(nodes_bp)
-app.register_blueprint(vps_bp)
-
-# ---- Home ----
 @app.route('/')
 def index():
     return redirect(url_for('auth.login'))
