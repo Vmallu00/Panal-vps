@@ -1,0 +1,4 @@
+body { background: #f4f6f9; }
+.card { border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+.navbar { background: #1a2332 !important; }
+.btn { border-radius: 20px; }
