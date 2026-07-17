@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Add Node</h2>
+<form method="POST">
+  <input name="name" class="form-control mb-2" placeholder="Name" required>
+  <input name="api_url" class="form-control mb-2" placeholder="API URL (e.g. http://ip:9000)" required>
+  <input name="api_key" class="form-control mb-2" placeholder="API Key" required>
+  <input name="max_ram" type="number" class="form-control mb-2" placeholder="Max RAM (MB, 0=unlimited)">
+  <input name="max_cpu" type="number" class="form-control mb-2" placeholder="Max CPU cores, 0=unlimited">
+  <input name="max_disk" type="number" class="form-control mb-2" placeholder="Max Disk (GB), 0=unlimited">
+  <button class="btn btn-success">Add Node</button>
+</form>
+{% endblock %}
