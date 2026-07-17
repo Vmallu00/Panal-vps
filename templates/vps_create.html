@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Create VPS</h2>
+<form method="POST">
+  <div class="mb-2"><input name="name" class="form-control" placeholder="VPS Name" required></div>
+  <div class="mb-2"><input name="cpu" type="number" step="0.5" class="form-control" placeholder="CPU Cores" required></div>
+  <div class="mb-2"><input name="ram" type="number" class="form-control" placeholder="RAM (MB)" required></div>
+  <div class="mb-2"><input name="disk" type="number" class="form-control" placeholder="Disk (GB)" required></div>
+  <div class="mb-2"><input name="duration" type="number" class="form-control" placeholder="Duration (days)" required></div>
+  <button class="btn btn-primary">Create</button>
+</form>
+{% endblock %}
