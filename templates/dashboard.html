@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>My VPS</h2>
+<a href="/vps/create" class="btn btn-success mb-3">+ New VPS</a>
+<div class="row">
+  {% for v in vps_list %}
+  <div class="col-md-4 mb-3">
+    <div class="card">
+      <div class="card-body">
+        <h5>{{ v.name }}</h5>
+        <p>CPU: {{ v.cpu }} cores | RAM: {{ v.ram }} MB | Disk: {{ v.disk }} GB</p>
+        <p>SSH Port: {{ v.ssh_port }} | IP: {{ v.private_ip }}</p>
+        <span class="badge bg-{{ 'success' if v.status == 'running' else 'secondary' }}">{{ v.status }}</span>
+        <div class="mt-2">
+          <a href="/vps/{{ v.id }}/start" class="btn btn-sm btn-success">Start</a>
+          <a href="/vps/{{ v.id }}/stop" class="btn btn-sm btn-warning">Stop</a>
+          <a href="/vps/{{ v.id }}/restart" class="btn btn-sm btn-info">Restart</a>
+          <a href="/vps/{{ v.id }}/delete" class="btn btn-sm btn-danger" onclick="return confirm('Delete?')">Delete</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}
