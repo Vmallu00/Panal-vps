@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Nodes</h2>
+<a href="/admin/nodes/add" class="btn btn-primary mb-3">+ Add Node</a>
+<table class="table table-striped">
+  <tr><th>ID</th><th>Name</th><th>URL</th><th>Status</th><th>Actions</th></tr>
+  {% for n in nodes %}
+  <tr>
+    <td>{{ n.id }}</td>
+    <td>{{ n.name }}</td>
+    <td>{{ n.api_url }}</td>
+    <td><span class="badge bg-{{ 'success' if n.status == 'online' else 'danger' }}">{{ n.status }}</span></td>
+    <td>
+      <form method="POST" action="/admin/nodes/delete/{{ n.id }}" style="display:inline">
+        <button class="btn btn-sm btn-danger" onclick="return confirm('Delete?')">Delete</button>
+      </form>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}
